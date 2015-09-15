@@ -160,8 +160,11 @@ function ManualRowMove() {
 
         createPositionData(instance.manualRowPositions, instance.countRows());
         instance.manualRowPositions.splice(endRow, 0, instance.manualRowPositions.splice(startRow, 1)[0]);
-
-        Handsontable.hooks.run(instance, 'beforeRowMove', startRow, endRow);
+        
+        var actionWasNotCancelled=Handsontable.hooks.run(instance, 'beforeRowMove', startRow, endRow);
+        if(actionWasNotCancelled===false){
+          return;
+        }
 
         instance.forceFullRender = true;
         instance.view.render(); //updates all
